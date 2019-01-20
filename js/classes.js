@@ -14,14 +14,18 @@ class Tile {
   }
 
   render() {
-    const div = document.createElement("div");
-    div.classList.add("tile", `_${this.value}`);
-    div.style.left = 171 * this.x + "px";
-    div.style.top = 192 * this.y + "px";
+    const div = $.div("tile")
+      .addClass(`_${this.value}`)
+      .css({
+        left: 171 * this.x,
+        top: 192 * this.y
+      });
 
-    div.onclick = () => {
-      this.source.func.onTileClick.call(this);
-    };
+    div.click(() => {
+      if (!this.source.InProcess) {
+        this.source.func.onTileClick.call(this);
+      }
+    });
 
     return div;
   }
@@ -31,7 +35,7 @@ class Tile {
     this.y = y;
     this.value = value;
 
-    this.dom.classList.replace(this.dom.classList[1], `_${value}`);
+    this.dom[0].classList.replace(this.dom[0].classList[1], `_${value}`);
 
     return this;
   }
@@ -49,6 +53,7 @@ class Field {
       opt.func = {};
     }
 
+    this.InProcess = false;
     this.width = opt.width;
     this.height = opt.height;
     this.tileColorsTotal = 5;
@@ -71,8 +76,7 @@ class Field {
   }
 
   render() {
-    const wrapper = document.createElement("div");
-    wrapper.id = "wrapper";
+    const wrapper = $.div("wrapper", true);
 
     this.field.forEach((row, i) => {
       const tileRow = [];
@@ -86,7 +90,7 @@ class Field {
         });
         const div = tile.dom;
         tileRow.push(tile);
-        wrapper.appendChild(div);
+        wrapper.append(div);
       });
 
       this.tiles.push([...tileRow]);

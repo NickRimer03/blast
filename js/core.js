@@ -10,5 +10,5 @@ function ready() {
     func: { onTileClick: onTileClick }
   });
   gameField.fill();
-  document.body.appendChild(gameField.dom);
+  $("body").append(gameField.dom);
 }

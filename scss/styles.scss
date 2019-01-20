@@ -37,12 +37,11 @@ body {
 .tile {
   @include block_pos();
   @include block_dim(171px, 192px);
-  display: inline-block;
   transition: 0.2s;
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     z-index: 10;
   }
 

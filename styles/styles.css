@@ -14,11 +14,10 @@ body {
   top: 0px;
   width: 171px;
   height: 192px;
-  display: inline-block;
   transition: 0.2s;
   cursor: pointer; }
   .tile:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     z-index: 10; }
   .tile._1 {
     background-image: url("../assets/img/tile_blue.png"); }

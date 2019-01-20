@@ -1,5 +1,24 @@
 /*eslint no-unused-vars: 0*/
 
+Array.prototype.duplicates = function(returnDuplicated = false) {
+  if (returnDuplicated) {
+    return this.reduce(function(acc, e, i, arr) {
+      if (arr.indexOf(e) !== i && acc.indexOf(e) < 0) {
+        acc.push(e);
+      }
+      return acc;
+    }, []);
+  } else {
+    return this.filter((e, i, arr) => {
+      return arr.indexOf(e) == i;
+    });
+  }
+};
+
+$.div = function(klass, id = false) {
+  return $(`<div ${id ? "id" : "class"}="${klass}"></div>`);
+};
+
 function getRandomInt(max, min = 0) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -47,8 +66,11 @@ function getAdjacent(tile, old, value, field) {
 }
 
 function onTileClick() {
+  this.source.InProcess = true;
+
   const target = { x: this.x, y: this.y };
   const field = this.source.field;
+  const tiles = this.source.tiles;
   const processed = [];
   let sequence = [target];
 
@@ -60,24 +82,89 @@ function onTileClick() {
     }
   } while (sequence.length > 0);
 
+  const anim = [];
   if (processed.length == 1) {
     shakeTile(this.dom);
   } else {
     processed.forEach(e => {
-      this.source.field[e.y][e.x] = 0;
-      Velocity(
-        this.source.tiles[e.y][e.x].dom,
-        { opacity: 0, display: "none" },
-        { duration: 400 }
+      field[e.y][e.x] = 0;
+      anim.push(tiles[e.y][e.x].dom.velocity({ opacity: 0 }, 400));
+    });
+
+    $.when.apply($, anim).done(() => {
+      processed.forEach(e => {
+        tiles[e.y][e.x].dom.remove();
+        tiles[e.y][e.x] = null;
+      });
+
+      dropTiles(
+        processed
+          .map(e => {
+            return e.x;
+          })
+          .duplicates(),
+        this.source
       );
     });
   }
 }
 
+function dropTiles(empty, gameField) {
+  const anim = [];
+  const field = gameField.field;
+  const tiles = gameField.tiles;
+
+  empty.forEach(col => {
+    let holes = 0;
+    for (let i = field.length - 1; i >= 0; i--) {
+      if (field[i][col] == 0) {
+        holes++;
+      } else {
+        if (holes > 0) {
+          const tile = tiles[i][col];
+          anim.push(tile.dom.velocity({ top: `+=${192 * holes}` }, 700));
+          [field[i][col], field[i + holes][col]] = [
+            field[i + holes][col],
+            field[i][col]
+          ];
+          [tiles[i][col], tiles[i + holes][col]] = [
+            tiles[i + holes][col],
+            tiles[i][col]
+          ];
+        }
+      }
+    }
+    for (let j = 0; j < holes; j++) {
+      const newValue = getRandomInt(gameField.tileColorsTotal, 1);
+      const y = holes - j - 1;
+
+      const tile = new Tile({
+        x: col,
+        y: y,
+        value: newValue,
+        source: gameField
+      });
+
+      gameField.tiles[y][col] = tile;
+      gameField.field[y][col] = newValue;
+
+      gameField.dom.append(tile.dom);
+      tile.dom.css("top", -192 * (j + 1));
+      anim.push(tile.dom.velocity({ top: `+=${192 * holes}` }, 700));
+    }
+  });
+
+  $.when.apply($, anim).done(() => {
+    gameField.update();
+    gameField.InProcess = false;
+  });
+}
+
 function shakeTile(dom) {
-  Velocity(dom, { left: dom.offsetLeft - 20 }, { duration: 150 });
-  Velocity(dom, { left: dom.offsetLeft + 40 }, { duration: 150 });
-  Velocity(dom, { left: dom.offsetLeft - 20 }, { duration: 150 });
-  Velocity(dom, { left: dom.offsetLeft + 40 }, { duration: 150 });
-  Velocity(dom, { left: dom.offsetLeft }, { duration: 150 });
+  dom
+    .velocity({ left: "-=20" }, 100)
+    .velocity({ left: "+=40" }, 100)
+    .velocity({ left: "-=40" }, 100)
+    .velocity({ left: "+=40" }, 100)
+    .velocity({ left: "-=20" }, 100);
 }
