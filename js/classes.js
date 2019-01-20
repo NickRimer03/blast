@@ -17,8 +17,8 @@ class Tile {
     const div = $.div("tile")
       .addClass(`_${this.value}`)
       .css({
-        left: 171 * this.x,
-        top: 192 * this.y
+        left: this.source.leftBoundary + this.source.tileWidth * this.x,
+        top: this.source.topBoundary + this.source.tileHeight * this.y
       });
 
     div.click(() => {
@@ -53,6 +53,11 @@ class Field {
       opt.func = {};
     }
 
+    this.leftBoundary = 130 + 48;
+    this.topBoundary = 170 + 267 + 40.5;
+    this.tileWidth = 171;
+    this.tileHeight = 192;
+
     this.InProcess = false;
     this.width = opt.width;
     this.height = opt.height;
@@ -63,6 +68,15 @@ class Field {
     this.tiles = [];
     this.func = opt.func;
     this.dom = this.render();
+  }
+
+  add({ x, y, value }) {
+    return new Tile({
+      x: x,
+      y: y,
+      value: value,
+      source: this
+    });
   }
 
   fill() {
@@ -82,12 +96,7 @@ class Field {
       const tileRow = [];
 
       row.forEach((elem, j) => {
-        const tile = new Tile({
-          x: j,
-          y: i,
-          value: elem,
-          source: this
-        });
+        const tile = this.add({ x: j, y: i, value: elem });
         const div = tile.dom;
         tileRow.push(tile);
         wrapper.append(div);

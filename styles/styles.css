@@ -1,12 +1,71 @@
+@font-face {
+  font-family: "Marvin";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../assets/Marvin.otf") format("opentype"); }
+
 * {
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #000; }
+  font-family: "Marvin", serif;
+  font-size: 66px;
+  color: #fff; }
 
 body {
+  width: 3508px;
+  height: 2480px;
   background-color: darkgray; }
+
+#header {
+  width: 100%;
+  height: 267px;
+  display: flex; }
+  #header #progress_wrapper {
+    width: 1368px;
+    height: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+    margin-left: 917px;
+    padding-top: 12px;
+    background-image: url("../assets/img/progress_wrapper_back.png");
+    background-repeat: no-repeat; }
+    #header #progress_wrapper .caption {
+      width: 314px;
+      margin: 0 auto; }
+    #header #progress_wrapper .progressbar {
+      position: absolute;
+      left: 979px;
+      top: 117px;
+      width: 0px;
+      height: 86px;
+      background-image: url("../assets/img/progressbar.png");
+      background-repeat: no-repeat; }
+      #header #progress_wrapper .progressbar_back {
+        width: 1259px;
+        height: 103px;
+        margin: 8px auto 0;
+        background-image: url("../assets/img/progressbar_back.png");
+        background-repeat: no-repeat; }
+  #header #score_wrapper {
+    width: 504px;
+    height: 158px;
+    display: inline-block;
+    margin: 65px 0 0 63px;
+    background-image: url("../assets/img/score_wrapper_back.png");
+    background-repeat: no-repeat; }
+    #header #score_wrapper .score {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 85px; }
+
+#wrapper {
+  width: 1635px;
+  height: 1809px;
+  margin: 170px 0 0 130px;
+  background-image: url("../assets/img/wrapper_back.png");
+  background-repeat: no-repeat; }
 
 .tile {
   position: absolute;
@@ -20,12 +79,17 @@ body {
     transform: scale(1.05);
     z-index: 10; }
   .tile._1 {
-    background-image: url("../assets/img/tile_blue.png"); }
+    background-image: url("../assets/img/tile_blue.png");
+    background-repeat: no-repeat; }
   .tile._2 {
-    background-image: url("../assets/img/tile_green.png"); }
+    background-image: url("../assets/img/tile_green.png");
+    background-repeat: no-repeat; }
   .tile._3 {
-    background-image: url("../assets/img/tile_purple.png"); }
+    background-image: url("../assets/img/tile_purple.png");
+    background-repeat: no-repeat; }
   .tile._4 {
-    background-image: url("../assets/img/tile_red.png"); }
+    background-image: url("../assets/img/tile_red.png");
+    background-repeat: no-repeat; }
   .tile._5 {
-    background-image: url("../assets/img/tile_yellow.png"); }
+    background-image: url("../assets/img/tile_yellow.png");
+    background-repeat: no-repeat; }

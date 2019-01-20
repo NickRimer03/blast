@@ -14,6 +14,13 @@
   }
 }
 
+@font-face {
+  font-family: "Marvin";
+  font-style: normal;
+  font-weight: normal;
+  src: url("../assets/Marvin.otf") format("opentype");
+}
+
 $colors: (
   1: "../assets/img/tile_blue.png",
   2: "../assets/img/tile_green.png",
@@ -27,11 +34,71 @@ $colors: (
   padding: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #000;
+  font-family: "Marvin", serif;
+  font-size: 66px;
+  color: #fff;
 }
 
 body {
+  @include block_dim(3508px, 2480px);
   background-color: darkgray;
+  // background-image: url("../assets/assets.png");
+  // background-repeat: no-repeat;
+}
+
+#header {
+  @include block_dim(100%, 267px);
+  display: flex;
+
+  #progress_wrapper {
+    @include block_dim(1368px, 100%);
+    display: inline-block;
+    box-sizing: border-box;
+    margin-left: 917px;
+    padding-top: 12px;
+    background-image: url("../assets/img/progress_wrapper_back.png");
+    background-repeat: no-repeat;
+
+    .caption {
+      width: 314px;
+      margin: 0 auto;
+    }
+
+    .progressbar {
+      @include block_pos(979px, 117px);
+      @include block_dim(0px, 86px);
+      background-image: url("../assets/img/progressbar.png");
+      background-repeat: no-repeat;
+
+      &_back {
+        @include block_dim(1259px, 103px);
+        margin: 8px auto 0;
+        background-image: url("../assets/img/progressbar_back.png");
+        background-repeat: no-repeat;
+      }
+    }
+  }
+
+  #score_wrapper {
+    @include block_dim(504px, 158px);
+    display: inline-block;
+    margin: 65px 0 0 63px;
+    background-image: url("../assets/img/score_wrapper_back.png");
+    background-repeat: no-repeat;
+
+    .score {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 85px;
+    }
+  }
+}
+
+#wrapper {
+  @include block_dim(1635px, 1809px);
+  margin: 170px 0 0 130px;
+  background-image: url("../assets/img/wrapper_back.png");
+  background-repeat: no-repeat;
 }
 
 .tile {
@@ -48,6 +115,7 @@ body {
   @each $idx, $color in $colors {
     &._#{$idx} {
       background-image: url($color);
+      background-repeat: no-repeat;
     }
   }
 }

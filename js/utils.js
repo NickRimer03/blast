@@ -100,6 +100,7 @@ function onTileClick() {
       });
 
       dropTiles(
+        processed.length,
         processed
           .map(e => {
             return e.x;
@@ -111,7 +112,7 @@ function onTileClick() {
   }
 }
 
-function dropTiles(empty, gameField) {
+function dropTiles(burned, empty, gameField) {
   const anim = [];
   const field = gameField.field;
   const tiles = gameField.tiles;
@@ -124,7 +125,9 @@ function dropTiles(empty, gameField) {
       } else {
         if (holes > 0) {
           const tile = tiles[i][col];
-          anim.push(tile.dom.velocity({ top: `+=${192 * holes}` }, 700));
+          anim.push(
+            tile.dom.velocity({ top: `+=${gameField.tileHeight * holes}` }, 700)
+          );
           [field[i][col], field[i + holes][col]] = [
             field[i + holes][col],
             field[i][col]
@@ -140,26 +143,67 @@ function dropTiles(empty, gameField) {
       const newValue = getRandomInt(gameField.tileColorsTotal, 1);
       const y = holes - j - 1;
 
-      const tile = new Tile({
-        x: col,
-        y: y,
-        value: newValue,
-        source: gameField
-      });
+      const tile = gameField.add({ x: col, y, value: newValue });
 
       gameField.tiles[y][col] = tile;
       gameField.field[y][col] = newValue;
 
       gameField.dom.append(tile.dom);
-      tile.dom.css("top", -192 * (j + 1));
-      anim.push(tile.dom.velocity({ top: `+=${192 * holes}` }, 700));
+      tile.dom.css(
+        "top",
+        gameField.topBoundary + -gameField.tileHeight * (j + 1)
+      );
+      anim.push(
+        tile.dom.velocity({ top: `+=${gameField.tileHeight * holes}` }, 700)
+      );
     }
   });
 
   $.when.apply($, anim).done(() => {
+    setScore(burned, gameField);
     gameField.update();
-    gameField.InProcess = false;
   });
+}
+
+function setScore(burned, gameField) {
+  const anim = [];
+  const predict = gameState.globalScore + burned * (burned >= 5 ? 15 : 10);
+  anim.push(mineralCounter(gameState.globalScore, predict));
+
+  const percents = (predict * 100) / gameState.scoreGoal;
+  let width = (percents * 1245) / 100;
+  if (width > 1245) {
+    width = 1245;
+  }
+  anim.push(gameState.scoreProgressBar.velocity({ width: width }, 700));
+
+  $.when.apply($, anim).done(() => {
+    gameState.globalScore = predict;
+    gameState.movesLeft--;
+    if (gameState.globalScore >= gameState.scoreGoal) {
+      alert("YOU WIN!!! :)");
+    } else {
+      if (gameState.movesLeft > 0) {
+        gameField.InProcess = false;
+      } else {
+        alert("YOU LOSE!!! :(");
+      }
+    }
+  });
+}
+
+function mineralCounter(start, finish, ms = 20) {
+  const dfd = $.Deferred();
+
+  const interval = count => {
+    gameState.scoreTextField.html(count);
+    if (count < finish) {
+      setTimeout(() => interval(++count), ms);
+    } else dfd.resolve();
+  };
+  interval(start);
+
+  return dfd.promise();
 }
 
 function shakeTile(dom) {
