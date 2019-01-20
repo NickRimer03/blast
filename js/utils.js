@@ -84,7 +84,9 @@ function onTileClick() {
 
   const anim = [];
   if (processed.length == 1) {
-    shakeTile(this.dom);
+    shakeTile(this.dom).done(() => {
+      this.source.InProcess = false;
+    });
   } else {
     processed.forEach(e => {
       field[e.y][e.x] = 0;
@@ -161,10 +163,11 @@ function dropTiles(empty, gameField) {
 }
 
 function shakeTile(dom) {
-  dom
+  return dom
     .velocity({ left: "-=20" }, 100)
     .velocity({ left: "+=40" }, 100)
     .velocity({ left: "-=40" }, 100)
     .velocity({ left: "+=40" }, 100)
-    .velocity({ left: "-=20" }, 100);
+    .velocity({ left: "-=20" }, 100)
+    .promise();
 }
