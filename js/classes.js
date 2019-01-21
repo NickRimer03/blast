@@ -90,7 +90,7 @@ class Field {
   }
 
   render() {
-    const wrapper = $.div("wrapper", true);
+    const wrapper = $("#gamewrapper");
 
     this.field.forEach((row, i) => {
       const tileRow = [];

@@ -9,8 +9,11 @@ function ready() {
     globalScore: 0,
     movesLeft: 21,
     scoreProgressBar: $("#progress_wrapper .progressbar"),
-    scoreTextField: $("#score_wrapper .score")
+    scoreTextField: $("#gamestuff .score"),
+    movesTextField: $("#gamestuff .moves")
   };
+
+  gameState.movesTextField.html(gameState.movesLeft);
 
   const gameField = new Field({
     width,
@@ -18,5 +21,4 @@ function ready() {
     func: { onTileClick: onTileClick }
   });
   gameField.fill();
-  $("body").append(gameField.dom);
 }

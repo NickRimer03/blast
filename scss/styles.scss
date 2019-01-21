@@ -44,78 +44,103 @@ body {
   background-color: darkgray;
   // background-image: url("../assets/assets.png");
   // background-repeat: no-repeat;
+
+  transform-origin: 0 0;
+  transform: scale(0.45);
 }
 
-#header {
-  @include block_dim(100%, 267px);
-  display: flex;
+#progress_wrapper {
+  @include block_dim(1368px, 267px);
+  display: inline-block;
+  box-sizing: border-box;
+  margin-left: 917px;
+  padding-top: 12px;
+  background-image: url("../assets/img/progress_wrapper_back.png");
+  background-repeat: no-repeat;
 
-  #progress_wrapper {
-    @include block_dim(1368px, 100%);
-    display: inline-block;
-    box-sizing: border-box;
-    margin-left: 917px;
-    padding-top: 12px;
-    background-image: url("../assets/img/progress_wrapper_back.png");
+  .caption {
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .progressbar {
+    @include block_pos(979px, 117px);
+    @include block_dim(0px, 86px);
+    background-image: url("../assets/img/progressbar.png");
     background-repeat: no-repeat;
 
-    .caption {
-      width: 314px;
-      margin: 0 auto;
-    }
-
-    .progressbar {
-      @include block_pos(979px, 117px);
-      @include block_dim(0px, 86px);
-      background-image: url("../assets/img/progressbar.png");
+    &_back {
+      @include block_dim(1259px, 103px);
+      margin: 8px auto 0;
+      background-image: url("../assets/img/progressbar_back.png");
       background-repeat: no-repeat;
+    }
+  }
+}
 
-      &_back {
-        @include block_dim(1259px, 103px);
-        margin: 8px auto 0;
-        background-image: url("../assets/img/progressbar_back.png");
-        background-repeat: no-repeat;
+#gamefield {
+  display: flex;
+  padding: 140px 0 0 130px;
+
+  #gamewrapper {
+    @include block_dim(1635px, 1809px);
+    display: inline-block;
+    margin-top: 30px;
+    background-image: url("../assets/img/wrapper_back.png");
+    background-repeat: no-repeat;
+
+    .tile {
+      @include block_pos();
+      @include block_dim(171px, 192px);
+      transition: 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        transform: scale(1.05);
+        z-index: 10;
+      }
+
+      @each $idx, $color in $colors {
+        &._#{$idx} {
+          background-image: url($color);
+          background-repeat: no-repeat;
+        }
       }
     }
   }
 
-  #score_wrapper {
-    @include block_dim(504px, 158px);
+  #gamestuff {
+    @include block_dim(1128px, 1196px);
     display: inline-block;
-    margin: 65px 0 0 63px;
-    background-image: url("../assets/img/score_wrapper_back.png");
+    margin-left: 405px;
+    background-image: url("../assets/img/time_score_wrapper_back.png");
     background-repeat: no-repeat;
 
-    .score {
-      margin-top: 15px;
-      text-align: center;
-      font-size: 85px;
+    .caption {
+      margin: 0 auto;
+      font-size: 80px;
+
+      &._moves {
+        margin-top: 25px;
+        text-align: center;
+      }
+
+      &._score {
+        margin-top: 157px;
+        text-align: center;
+      }
     }
-  }
-}
 
-#wrapper {
-  @include block_dim(1635px, 1809px);
-  margin: 170px 0 0 130px;
-  background-image: url("../assets/img/wrapper_back.png");
-  background-repeat: no-repeat;
-}
+    .moves {
+      margin: 160px auto 0;
+      text-align: center;
+      font-size: 240px;
+    }
 
-.tile {
-  @include block_pos();
-  @include block_dim(171px, 192px);
-  transition: 0.2s;
-  cursor: pointer;
-
-  &:hover {
-    transform: scale(1.05);
-    z-index: 10;
-  }
-
-  @each $idx, $color in $colors {
-    &._#{$idx} {
-      background-image: url($color);
-      background-repeat: no-repeat;
+    .score {
+      text-align: center;
+      line-height: 140px;
+      font-size: 140px;
     }
   }
 }

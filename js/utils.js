@@ -180,6 +180,8 @@ function setScore(burned, gameField) {
   $.when.apply($, anim).done(() => {
     gameState.globalScore = predict;
     gameState.movesLeft--;
+    gameState.movesTextField.html(gameState.movesLeft);
+
     if (gameState.globalScore >= gameState.scoreGoal) {
       alert("YOU WIN!!! :)");
     } else {
@@ -192,7 +194,7 @@ function setScore(burned, gameField) {
   });
 }
 
-function mineralCounter(start, finish, ms = 20) {
+function mineralCounter(start, finish, ms = 15) {
   const dfd = $.Deferred();
 
   const interval = count => {

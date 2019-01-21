@@ -16,80 +16,94 @@
 body {
   width: 3508px;
   height: 2480px;
-  background-color: darkgray; }
+  background-color: darkgray;
+  transform-origin: 0 0;
+  transform: scale(0.45); }
 
-#header {
-  width: 100%;
+#progress_wrapper {
+  width: 1368px;
   height: 267px;
-  display: flex; }
-  #header #progress_wrapper {
-    width: 1368px;
-    height: 100%;
-    display: inline-block;
-    box-sizing: border-box;
-    margin-left: 917px;
-    padding-top: 12px;
-    background-image: url("../assets/img/progress_wrapper_back.png");
-    background-repeat: no-repeat; }
-    #header #progress_wrapper .caption {
-      width: 314px;
-      margin: 0 auto; }
-    #header #progress_wrapper .progressbar {
-      position: absolute;
-      left: 979px;
-      top: 117px;
-      width: 0px;
-      height: 86px;
-      background-image: url("../assets/img/progressbar.png");
-      background-repeat: no-repeat; }
-      #header #progress_wrapper .progressbar_back {
-        width: 1259px;
-        height: 103px;
-        margin: 8px auto 0;
-        background-image: url("../assets/img/progressbar_back.png");
-        background-repeat: no-repeat; }
-  #header #score_wrapper {
-    width: 504px;
-    height: 158px;
-    display: inline-block;
-    margin: 65px 0 0 63px;
-    background-image: url("../assets/img/score_wrapper_back.png");
-    background-repeat: no-repeat; }
-    #header #score_wrapper .score {
-      margin-top: 15px;
-      text-align: center;
-      font-size: 85px; }
-
-#wrapper {
-  width: 1635px;
-  height: 1809px;
-  margin: 170px 0 0 130px;
-  background-image: url("../assets/img/wrapper_back.png");
+  display: inline-block;
+  box-sizing: border-box;
+  margin-left: 917px;
+  padding-top: 12px;
+  background-image: url("../assets/img/progress_wrapper_back.png");
   background-repeat: no-repeat; }
+  #progress_wrapper .caption {
+    margin: 0 auto;
+    text-align: center; }
+  #progress_wrapper .progressbar {
+    position: absolute;
+    left: 979px;
+    top: 117px;
+    width: 0px;
+    height: 86px;
+    background-image: url("../assets/img/progressbar.png");
+    background-repeat: no-repeat; }
+    #progress_wrapper .progressbar_back {
+      width: 1259px;
+      height: 103px;
+      margin: 8px auto 0;
+      background-image: url("../assets/img/progressbar_back.png");
+      background-repeat: no-repeat; }
 
-.tile {
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: 171px;
-  height: 192px;
-  transition: 0.2s;
-  cursor: pointer; }
-  .tile:hover {
-    transform: scale(1.05);
-    z-index: 10; }
-  .tile._1 {
-    background-image: url("../assets/img/tile_blue.png");
+#gamefield {
+  display: flex;
+  padding: 140px 0 0 130px; }
+  #gamefield #gamewrapper {
+    width: 1635px;
+    height: 1809px;
+    display: inline-block;
+    margin-top: 30px;
+    background-image: url("../assets/img/wrapper_back.png");
     background-repeat: no-repeat; }
-  .tile._2 {
-    background-image: url("../assets/img/tile_green.png");
+    #gamefield #gamewrapper .tile {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 171px;
+      height: 192px;
+      transition: 0.2s;
+      cursor: pointer; }
+      #gamefield #gamewrapper .tile:hover {
+        transform: scale(1.05);
+        z-index: 10; }
+      #gamefield #gamewrapper .tile._1 {
+        background-image: url("../assets/img/tile_blue.png");
+        background-repeat: no-repeat; }
+      #gamefield #gamewrapper .tile._2 {
+        background-image: url("../assets/img/tile_green.png");
+        background-repeat: no-repeat; }
+      #gamefield #gamewrapper .tile._3 {
+        background-image: url("../assets/img/tile_purple.png");
+        background-repeat: no-repeat; }
+      #gamefield #gamewrapper .tile._4 {
+        background-image: url("../assets/img/tile_red.png");
+        background-repeat: no-repeat; }
+      #gamefield #gamewrapper .tile._5 {
+        background-image: url("../assets/img/tile_yellow.png");
+        background-repeat: no-repeat; }
+  #gamefield #gamestuff {
+    width: 1128px;
+    height: 1196px;
+    display: inline-block;
+    margin-left: 405px;
+    background-image: url("../assets/img/time_score_wrapper_back.png");
     background-repeat: no-repeat; }
-  .tile._3 {
-    background-image: url("../assets/img/tile_purple.png");
-    background-repeat: no-repeat; }
-  .tile._4 {
-    background-image: url("../assets/img/tile_red.png");
-    background-repeat: no-repeat; }
-  .tile._5 {
-    background-image: url("../assets/img/tile_yellow.png");
-    background-repeat: no-repeat; }
+    #gamefield #gamestuff .caption {
+      margin: 0 auto;
+      font-size: 80px; }
+      #gamefield #gamestuff .caption._moves {
+        margin-top: 25px;
+        text-align: center; }
+      #gamefield #gamestuff .caption._score {
+        margin-top: 157px;
+        text-align: center; }
+    #gamefield #gamestuff .moves {
+      margin: 160px auto 0;
+      text-align: center;
+      font-size: 240px; }
+    #gamefield #gamestuff .score {
+      text-align: center;
+      line-height: 140px;
+      font-size: 140px; }
