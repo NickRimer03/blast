@@ -23,6 +23,18 @@ function getRandomInt(max, min = 0) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+function scaleGame() {
+  const body = $("body");
+  const cw = document.documentElement.clientWidth;
+  const ch = document.documentElement.clientHeight;
+  const bw = body.width();
+  const bh = body.height();
+  const ratiow = cw / bw;
+  const ratioh = ch / bh;
+
+  body.css("transform", `scale(${Math.min.call(null, ratiow, ratioh)})`);
+}
+
 function hasNoPointDuplicates({ x, y }, points) {
   return (
     points.filter(e => {
@@ -126,7 +138,7 @@ function dropTiles(burned, empty, gameField) {
         if (holes > 0) {
           const tile = tiles[i][col];
           anim.push(
-            tile.dom.velocity({ top: `+=${gameField.tileHeight * holes}` }, 700)
+            tile.dom.velocity({ top: `+=${gameField.tileHeight * holes}` }, 500)
           );
           [field[i][col], field[i + holes][col]] = [
             field[i + holes][col],
@@ -149,12 +161,12 @@ function dropTiles(burned, empty, gameField) {
       gameField.field[y][col] = newValue;
 
       gameField.dom.append(tile.dom);
-      tile.dom.css(
-        "top",
-        gameField.topBoundary + -gameField.tileHeight * (j + 1)
-      );
+      tile.dom.css("top", -gameField.tileHeight * (j + 1));
       anim.push(
-        tile.dom.velocity({ top: `+=${gameField.tileHeight * holes}` }, 700)
+        tile.dom.velocity(
+          { top: `+=${gameField.topBoundary + gameField.tileHeight * holes}` },
+          500
+        )
       );
     }
   });
@@ -167,7 +179,8 @@ function dropTiles(burned, empty, gameField) {
 
 function setScore(burned, gameField) {
   const anim = [];
-  const predict = gameState.globalScore + burned * (burned >= 5 ? 15 : 10);
+  const perTile = burned >= 5 ? (burned >= 8 ? 20 : 15) : 10;
+  const predict = gameState.globalScore + burned * perTile;
   anim.push(mineralCounter(gameState.globalScore, predict));
 
   const percents = (predict * 100) / gameState.scoreGoal;
@@ -183,12 +196,20 @@ function setScore(burned, gameField) {
     gameState.movesTextField.html(gameState.movesLeft);
 
     if (gameState.globalScore >= gameState.scoreGoal) {
-      alert("YOU WIN!!! :)");
+      gameState.popup.text.html(
+        `победа!<br>набрано ${gameState.globalScore} очков<br>ходов осталось: ${
+          gameState.movesLeft
+        }`
+      );
+      gameState.popup.button.addClass("reload").html("повтор");
+      showPopup();
     } else {
       if (gameState.movesLeft > 0) {
         gameField.InProcess = false;
       } else {
-        alert("YOU LOSE!!! :(");
+        gameState.popup.text.html("вы проиграли :(");
+        gameState.popup.button.addClass("reload").html("повтор");
+        showPopup();
       }
     }
   });
@@ -216,4 +237,43 @@ function shakeTile(dom) {
     .velocity({ left: "+=40" }, 100)
     .velocity({ left: "-=20" }, 100)
     .promise();
+}
+
+function showPopup() {
+  const anim = [];
+  anim.push(gameState.wall.velocity({ opacity: 0.5 }, { display: "block" }));
+  anim.push(
+    gameState.popup.body
+      .velocity(
+        { top: ["40%", "100%"], opacity: 1 },
+        { display: "block", duration: 700 }
+      )
+      .velocity({ top: ["50%", "40%"] }, 300)
+  );
+
+  $.when.apply($, anim).done(() => {
+    gameState.popup.button.removeClass("disabled");
+  });
+}
+
+function hidePopup() {
+  const anim = [];
+  gameState.popup.button.addClass("disabled");
+  anim.push(
+    gameState.popup.body.velocity({ top: ["40%", "50%"] }, 300).velocity(
+      { top: ["100%", "40%"], opacity: 0 },
+      {
+        display: "none",
+        duration: 700
+      }
+    )
+  );
+  anim.push(gameState.wall.velocity({ opacity: 0 }));
+
+  $.when.apply($, anim).done(() => {
+    gameState.wall.css("display", "none");
+    if (gameState.popup.button.hasClass("reload")) {
+      location.reload(true);
+    }
+  });
 }

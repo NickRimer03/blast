@@ -10,15 +10,26 @@ function ready() {
     movesLeft: 21,
     scoreProgressBar: $("#progress_wrapper .progressbar"),
     scoreTextField: $("#gamestuff .score"),
-    movesTextField: $("#gamestuff .moves")
+    movesTextField: $("#gamestuff .moves"),
+    popup: {
+      body: $("#popup"),
+      text: $("#popup .text"),
+      button: $("#popup .button")
+    },
+    wall: $("#wall")
   };
-
   gameState.movesTextField.html(gameState.movesLeft);
+  gameState.popup.button.click(() => {
+    hidePopup();
+  });
 
   const gameField = new Field({
     width,
     height,
     func: { onTileClick: onTileClick }
   });
+
+  scaleGame();
   gameField.fill();
+  showPopup();
 }

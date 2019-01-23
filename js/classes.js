@@ -53,8 +53,8 @@ class Field {
       opt.func = {};
     }
 
-    this.leftBoundary = 130 + 48;
-    this.topBoundary = 170 + 267 + 40.5;
+    this.leftBoundary = 48;
+    this.topBoundary = 40.5;
     this.tileWidth = 171;
     this.tileHeight = 192;
 

@@ -13,6 +13,11 @@
     <title>Blast</title>
   </head>
   <body>
+    <div id="wall"></div>
+    <div id="popup">
+      <div class="text">ваша цель:<br />1000 очков за 21 ход</div>
+      <div class="button disabled">начать</div>
+    </div>
     <div id="header">
       <div id="progress_wrapper">
         <div class="caption">прогресс</div>
@@ -23,10 +28,13 @@
     <div id="gamefield">
       <div id="gamewrapper"></div>
       <div id="gamestuff">
-        <div class="caption _moves">время:</div>
+        <div class="caption _moves">ходов:</div>
         <div class="moves">37</div>
         <div class="caption _score">очки:</div>
         <div class="score">0</div>
+        <div class="memo">
+          за куб:<br />2-5 — 10 очков<br />5-7 — 15 очков<br />8+ — 20 очков
+        </div>
       </div>
     </div>
   </body>

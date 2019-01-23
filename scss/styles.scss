@@ -37,16 +37,55 @@ $colors: (
   font-family: "Marvin", serif;
   font-size: 66px;
   color: #fff;
+  user-select: none;
 }
 
 body {
   @include block_dim(3508px, 2480px);
   background-color: darkgray;
-  // background-image: url("../assets/assets.png");
-  // background-repeat: no-repeat;
-
   transform-origin: 0 0;
-  transform: scale(0.45);
+}
+
+#wall {
+  @include block_pos();
+  @include block_dim(100%);
+  display: none;
+  opacity: 0;
+  background-color: #fff;
+  z-index: 90;
+}
+
+#popup {
+  @include block_pos(50%, 50%);
+  @include block_dim(1118px, 1055px);
+  transform: translateX(-50%) translateY(-50%);
+  background-image: url("../assets/img/popup_wrapper.png");
+  background-repeat: no-repeat;
+  opacity: 0;
+  z-index: 100;
+
+  .text {
+    margin-top: 240px;
+    text-align: center;
+  }
+
+  .button {
+    @include block_dim(375px, 158px);
+    margin: 280px auto 0;
+    text-align: center;
+    line-height: 154px;
+    background-image: url("../assets/img/button_back.png");
+    background-repeat: no-repeat;
+    cursor: pointer;
+
+    &.disabled {
+      pointer-events: none;
+    }
+
+    &:hover {
+      background-position-x: -375px;
+    }
+  }
 }
 
 #progress_wrapper {
@@ -85,9 +124,11 @@ body {
   #gamewrapper {
     @include block_dim(1635px, 1809px);
     display: inline-block;
+    position: relative;
     margin-top: 30px;
     background-image: url("../assets/img/wrapper_back.png");
     background-repeat: no-repeat;
+    overflow: hidden;
 
     .tile {
       @include block_pos();
@@ -141,6 +182,11 @@ body {
       text-align: center;
       line-height: 140px;
       font-size: 140px;
+    }
+
+    .memo {
+      text-align: center;
+      margin-top: 170px;
     }
   }
 }
